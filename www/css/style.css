@@ -1,5 +1,7 @@
 .content-ionic{padding:30px;}
 body{font-family: 'Oxygen', sans-serif;}
+.content-ionic h2{font-size:22px; color:#fff; position:relative;}
+.content-ionic h2::after{content:''; width:100px; height:3px; background:#fbc757; position:relative; z-index:9; text-align:center; display:block; margin:20px auto;}
 
 /*Home*/
 .content-ionic.home, .content-ionic.final{background:url(../img/bg-index.jpg); background-size:cover; text-align: center;}
@@ -7,7 +9,10 @@ body{font-family: 'Oxygen', sans-serif;}
 .content-ionic.home .boton{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; margin-top:60px; border-radius: 100px; width: 100px; height: 100px; color: #fff;  background: #fbc757; display:inline-block;}
 .content-ionic.home .boton.icon:before{font-size:40px; line-height:100px;}
 .content-ionic.home .boton:hover{background:#d1a441;}
-
+.content-ionic.home .ion-ios-help-outline{font-size:20px; color:#fff; text-align:right; display:block; margin-top:50px;}
+.content-ionic.ayuda a{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; background:#fbc757; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
+.content-ionic.ayuda p{color:#fff; margin-top:20px; font-size:13px;}
+.content-ionic.ayuda a:hover{background:#d1a441;}
 /*Internas*/
 .header-bar{background:#fbc757; display:block; padding:0px;}
 .header-bar p{ color:#fff; font-weight:600; text-align:right;}
@@ -15,7 +20,6 @@ body{font-family: 'Oxygen', sans-serif;}
 .header-bar input{width:25px; height:25px; float:right; background:none;}
 .internas .googlemap iframe{width:100%; height:90vh; pointer-events:none;}
 .internas footer a{font-size:20px; text-decoration: none; background:#575857; color:#fff; text-align:center; width:100%; padding:15px 0px; display:inline-block;}
-.internas footer{}
 .internas footer .bar-footer{border:0; padding:0;height:auto;}
 .internas footer .bar-footer a i{font-size:30px;}
 .internas footer .bar-footer .row{padding:0px;}
@@ -26,7 +30,6 @@ body{font-family: 'Oxygen', sans-serif;}
 
 /*Pantalla final*/
 .final .texto-final{margin-top:40px;}
-.final .texto-final h2{font-size:22px; color:#fff; position:relative;}
-.final .texto-final h2::after{content:''; width:100px; height:3px; background:#fbc757; position:relative; z-index:9; text-align:center; display:block; margin:30px auto;}
 .final .texto-final p{color:#fff; font-size:18px;  text-align:center; margin-top:10px; line-height:28px; font-weight:300;}
-.final .texto-final a{background:#fbc757; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
+.final .texto-final a{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; background:#fbc757; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
+.final .texto-final a:hover{background:#d1a441;}
