@@ -19,20 +19,17 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+    <!-- Google Maps  --> 
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGU5_GQbuD2DzWeQqJOewndTDnAdzDdrg" type="text/javascript"></script>
+
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/services/Drawings.js"></script>
+    <script src="js/controllers/MapController.js"></script>
   </head>
-  <body ng-app="starter">
+  <body ng-app="Wedraw">
 
-    <ion-pane>
-      <!--<ion-header-bar>
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>-->
-      <ion-content class="content-ionic home">
-        <figure><img src="img/logo-wedraw.png" alt="weDraw" /></figure>
-        <a href="segunda-pantalla.html" on-hold="onHold()" class="boton icon ion-edit" ></a>
-        <a href="ayuda.html"><i class="ion-ios-help-outline"></i></a>
-      </ion-content>
+    <ion-pane ui-view>
     </ion-pane>
   </body>
 </html>
