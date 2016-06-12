@@ -34,8 +34,8 @@ function MapController($scope, $state, Drawings){
   
         $scope.map.setCenter($scope.user_location);
   
-        // https://developers.google.com/maps/documentation/javascript/markers
-        var user_position_marker = new google.maps.Marker({ position: $scope.user_location, map: $scope.map });
+        var image = 'img/marker.png';
+        var user_position_marker = new google.maps.Marker({ position: $scope.user_location, map: $scope.map, icon: image });
       },
       function(){
         console.log("No se pudo obtener la posición del usuario")
