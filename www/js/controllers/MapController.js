@@ -1,5 +1,4 @@
-function MapController($scope, $state, Drawings){
-  console.log($state.current);
+function MapController($scope, $state, Drawings, GeolocationWatchdog, userPosition){
   $scope.drawOnMap = function(){
 
       // Por cada dibujo, lo pongo en el mapa
@@ -43,10 +42,53 @@ function MapController($scope, $state, Drawings){
     }
 
     $scope.drawOnMap();
-  }
+  } 
 
+  GeolocationWatchdog.begin();
+
+  $scope.userLocations = [];
+
+  var intervalID = window.setInterval(function(){
+    if(GeolocationWatchdog.user_location() !== null)
+    {
+      if($scope.userLocations.length > 0)
+      {
+        last_lat = $scope.userLocations[$scope.userLocations.length-1].lat; 
+        last_lng = $scope.userLocations[$scope.userLocations.length-1].lng;
+
+        if(GeolocationWatchdog.user_location().coords.latitude != last_lat || GeolocationWatchdog.user_location().coords.longitude != last_lng)
+        {
+          console.log("location has changed so i push"); 
+          $scope.userLocations.push(new google.maps.LatLng(GeolocationWatchdog.user_location().coords.latitude,GeolocationWatchdog.user_location().coords.longitude));   
+        }
+        else
+        {
+          console.log("location has not changed so i don't push anything");
+        }
+      }
+      else
+      {
+        console.log("first position pushed");
+        $scope.userLocations.push(new google.maps.LatLng(GeolocationWatchdog.user_location().coords.latitude,GeolocationWatchdog.user_location().coords.longitude));
+      }
+    }
+
+    if($scope.userLocations.length > 1)
+    {
+      new google.maps.Polyline({
+            path: $scope.userLocations,
+            geodesic: true,
+            strokeColor: '#00FF00',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        }).setMap($scope.map);
+    } 
+//      $scope.map.setCenter(user_location);
+//      var image = 'img/marker.png';
+//      var user_position_marker = new google.maps.Marker({ position: user_location, map: $scope.map, icon: image });
+  }, 10000);
 
   $scope.initializeMap();
 }
 
-app.controller('MapController', ['$scope', '$state', 'Drawings', MapController]);
+app.controller('MapController', ['$scope', '$state', 'Drawings', 'GeolocationWatchdog', MapController]);
