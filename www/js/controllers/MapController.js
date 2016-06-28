@@ -1,47 +1,33 @@
-function MapController($scope, $state, Drawings, GeolocationWatchdog, userPosition){
-  $scope.drawOnMap = function(){
+function MapController($scope, $state, uiGmapGoogleMapApi, Drawings, GeolocationWatchdog, userPosition){
 
-      // Por cada dibujo, lo pongo en el mapa
-      Drawings.getDrawings().forEach(function(drawing){
-        new google.maps.Polyline({
-            path: drawing.sections,
-            geodesic: true,
-            strokeColor: drawing.color,
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        }).setMap($scope.map);
-      })
-  };
+  $scope.on_map = true
+
+  $scope.drawing = false
+
+  $scope.confirming_drawing = false
+
+  $scope.drawings = Drawings.getDrawings();
+
+  $scope.new_map = { zoom: 14 }
+
+  $scope.user_location = { latitude: 45, longitude: -73 }
+
+  $scope.user_location_id = "papa"
+
+  $scope.marker_options = { icon:'img/marker.png' };
 
   $scope.initializeMap = function(){
-    $scope.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 14,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-    });
-
-    if($state.current.hasOwnProperty('data') && $state.current.data.hasOwnProperty('zoom'))
-    {
-      $scope.map.setZoom($state.current.data.zoom);
-      console.log('i changed the zoom');
-    }
 
     // Si hay soporte para geolocalización, me guardo la posición del usuario
     if(navigator.geolocation)
     {
       navigator.geolocation.getCurrentPosition(function(position){
-        $scope.user_location = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-  
-        $scope.map.setCenter($scope.user_location);
-  
-        var image = 'img/marker.png';
-        var user_position_marker = new google.maps.Marker({ position: $scope.user_location, map: $scope.map, icon: image });
+        $scope.user_location = { longitude: position.coords.longitude, latitude: position.coords.latitude };
       },
       function(){
         console.log("No se pudo obtener la posición del usuario")
       });
     }
-
-    $scope.drawOnMap();
   } 
 
   GeolocationWatchdog.begin();
@@ -59,7 +45,7 @@ function MapController($scope, $state, Drawings, GeolocationWatchdog, userPositi
         if(GeolocationWatchdog.user_location().coords.latitude != last_lat || GeolocationWatchdog.user_location().coords.longitude != last_lng)
         {
           console.log("location has changed so i push"); 
-          $scope.userLocations.push(new google.maps.LatLng(GeolocationWatchdog.user_location().coords.latitude,GeolocationWatchdog.user_location().coords.longitude));   
+          $scope.userLocations.push({ latitude: GeolocationWatchdog.user_location().coords.latitude, longitude: GeolocationWatchdog.user_location().coords.longitude });   
         }
         else
         {
@@ -69,10 +55,10 @@ function MapController($scope, $state, Drawings, GeolocationWatchdog, userPositi
       else
       {
         console.log("first position pushed");
-        $scope.userLocations.push(new google.maps.LatLng(GeolocationWatchdog.user_location().coords.latitude,GeolocationWatchdog.user_location().coords.longitude));
+        $scope.userLocations.push({ latitude: GeolocationWatchdog.user_location().coords.latitude, longitude: GeolocationWatchdog.user_location().coords.longitude });
       }
     }
-
+/*
     if($scope.userLocations.length > 1)
     {
       new google.maps.Polyline({
@@ -83,12 +69,31 @@ function MapController($scope, $state, Drawings, GeolocationWatchdog, userPositi
             strokeWeight: 2
         }).setMap($scope.map);
     } 
+*/
 //      $scope.map.setCenter(user_location);
 //      var image = 'img/marker.png';
 //      var user_position_marker = new google.maps.Marker({ position: user_location, map: $scope.map, icon: image });
   }, 10000);
 
   $scope.initializeMap();
+
+  $scope.changeToDrawing = function(){
+    $scope.on_map = false
+
+    $scope.new_map.zoom = 18
+
+    $scope.drawing = true
+  }
+
+  $scope.changeToConfirming = function(){
+    $scope.drawing = false
+
+    $scope.confirming_drawing = true
+  }
+
+  $scope.saveDrawing = function(){
+    Drawings.saveDrawing($scope.userLocations);
+  }
 }
 
-app.controller('MapController', ['$scope', '$state', 'Drawings', 'GeolocationWatchdog', MapController]);
+app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', 'Drawings', 'GeolocationWatchdog', MapController]);

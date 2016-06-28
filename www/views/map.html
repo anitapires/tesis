@@ -9,10 +9,25 @@
   </div>
 </ion-header-bar>
 <ion-content class="internas">
-  <div id="map"></div>
+  <ui-gmap-google-map center="user_location" zoom="new_map.zoom">
+    <ui-gmap-marker idKey="user_location_id" coords="user_location" options="marker_options"></ui-gmap-marker>
+
+    <ui-gmap-polyline ng-repeat="drawing in drawings" path="drawing.sections" stroke="drawing.stroke"></ui-gmap-polyline>
+  </ui-gmap-google-map>
   <footer>
-      <div class="bar bar-footer">
-        <a ui-sref="start_drawing">Comienza a dibujar</a>
+      <div class="bar bar-footer botones-internas">
+        <a ng-if="on_map" ng-click="changeToDrawing()">Comienza a dibujar</a>
+
+        <a ng-if="drawing" ng-click="changeToConfirming()"><i class="ion-android-done"></i></a>
+
+        <div ng-if="confirming_drawing" class="row">
+          <div class="col">
+            <a ui-sref="home"><i class="ion-android-close"></i></a>
+          </div>
+          <div class="col">
+            <a ng-click="saveDrawing()"><i class="ion-android-done"></i></a>
+          </div>
+        </div>
       </div>
   </footer>
 </ion-content>
