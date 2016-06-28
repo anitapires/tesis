@@ -1,88 +1,68 @@
-function MapController($scope, $state, uiGmapGoogleMapApi, Drawings, GeolocationWatchdog, userPosition){
+function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, Drawings, ReverseGeocoding){
 
+  // STATES
   $scope.on_map = true
 
   $scope.drawing = false
 
   $scope.confirming_drawing = false
 
+
+  // Drawings
   $scope.drawings = Drawings.getDrawings();
 
-  $scope.new_map = { zoom: 14 }
 
-  $scope.user_location = { latitude: 45, longitude: -73 }
+  // Map
+  $scope.map = { zoom: 14 }
 
+  $scope.currentLocation = { latitude: 45, longitude: -73 }
+
+  // Fucking marker
   $scope.user_location_id = "papa"
 
   $scope.marker_options = { icon:'img/marker.png' };
+ 
+  // Set center on user location
+  $cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function(position){
+ 
+    $scope.currentLocation.latitude  = position.coords.latitude
+    $scope.currentLocation.longitude = position.coords.longitude
 
-  $scope.initializeMap = function(){
+    ReverseGeocoding.getLocationInformation($scope.currentLocation.latitude, $scope.currentLocation.longitude).then(function(locationName){
+      $scope.locationName = locationName;
+    });
+ 
+  }, function(error){
+    console.log("Could not get user location");
+  });
 
-    // Si hay soporte para geolocalización, me guardo la posición del usuario
-    if(navigator.geolocation)
-    {
-      navigator.geolocation.getCurrentPosition(function(position){
-        $scope.user_location = { longitude: position.coords.longitude, latitude: position.coords.latitude };
-      },
-      function(){
-        console.log("No se pudo obtener la posición del usuario")
-      });
-    }
-  } 
 
-  GeolocationWatchdog.begin();
+  $scope.userLocations = []
+  $scope.fakeStroke = { color: "#232323" }          
 
-  $scope.userLocations = [];
+  var watchCurrentLocation = function() {
+    watch = $cordovaGeolocation.watchPosition({timeout: 10000, enableHighAccuracy: true});
+    watch.then(
+      null,
+      function(err) { console.log("watch error", err); },
+      function(position) {
+        $scope.currentLocation.latitude  = position.coords.latitude
+        $scope.currentLocation.longitude = position.coords.longitude
 
-  var intervalID = window.setInterval(function(){
-    if(GeolocationWatchdog.user_location() !== null)
-    {
-      if($scope.userLocations.length > 0)
-      {
-        last_lat = $scope.userLocations[$scope.userLocations.length-1].lat; 
-        last_lng = $scope.userLocations[$scope.userLocations.length-1].lng;
+        $scope.userLocations.push({latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude});
 
-        if(GeolocationWatchdog.user_location().coords.latitude != last_lat || GeolocationWatchdog.user_location().coords.longitude != last_lng)
-        {
-          console.log("location has changed so i push"); 
-          $scope.userLocations.push({ latitude: GeolocationWatchdog.user_location().coords.latitude, longitude: GeolocationWatchdog.user_location().coords.longitude });   
-        }
-        else
-        {
-          console.log("location has not changed so i don't push anything");
-        }
-      }
-      else
-      {
-        console.log("first position pushed");
-        $scope.userLocations.push({ latitude: GeolocationWatchdog.user_location().coords.latitude, longitude: GeolocationWatchdog.user_location().coords.longitude });
-      }
-    }
-/*
-    if($scope.userLocations.length > 1)
-    {
-      new google.maps.Polyline({
-            path: $scope.userLocations,
-            geodesic: true,
-            strokeColor: '#00FF00',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        }).setMap($scope.map);
-    } 
-*/
-//      $scope.map.setCenter(user_location);
-//      var image = 'img/marker.png';
-//      var user_position_marker = new google.maps.Marker({ position: user_location, map: $scope.map, icon: image });
-  }, 10000);
-
-  $scope.initializeMap();
+        console.log('Location changed:', $scope.currentLocation.latitude, $scope.currentLocation.longitude);
+    });
+  };
 
   $scope.changeToDrawing = function(){
     $scope.on_map = false
 
-    $scope.new_map.zoom = 18
+    $scope.map.zoom = 18
 
     $scope.drawing = true
+
+    watchCurrentLocation();
   }
 
   $scope.changeToConfirming = function(){
@@ -96,4 +76,4 @@ function MapController($scope, $state, uiGmapGoogleMapApi, Drawings, Geolocation
   }
 }
 
-app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', 'Drawings', 'GeolocationWatchdog', MapController]);
+app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', '$cordovaGeolocation', 'Drawings', 'ReverseGeocoding', MapController]);

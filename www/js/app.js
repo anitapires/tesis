@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-app = angular.module('Wedraw', ['ionic', 'uiGmapgoogle-maps']).config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider){
+app = angular.module('Wedraw', ['ionic', 'ngCordova', 'uiGmapgoogle-maps']).config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider){
 
   uiGmapGoogleMapApiProvider.configure({
     key: 'AIzaSyBGU5_GQbuD2DzWeQqJOewndTDnAdzDdrg'

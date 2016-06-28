@@ -55,7 +55,8 @@ function DrawingService($http) {
   }
 
   this.saveDrawing = function(sections){
-    $http.post('http://localhost:9292/drawings', {name: "Ana"}).then(
+    console.log(sections);
+    $http.post('http://localhost:9292/drawings', {sections: sections}).then(
       function(){console.log("i succeded to send the drawings to the server")}, 
       function(){console.log("i failed to send the drawings to the server")}
     );

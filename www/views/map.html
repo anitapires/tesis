@@ -4,16 +4,21 @@
       <figure><img src="img/logo-wedraw-w.png" width="auto" height="20"/></figure>
     </div>
     <div class="col">
-      <p>La plata,Bs As</p> 
+      <p>{{locationName}}</p> 
     </div>
   </div>
 </ion-header-bar>
 <ion-content class="internas">
-  <ui-gmap-google-map center="user_location" zoom="new_map.zoom">
-    <ui-gmap-marker idKey="user_location_id" coords="user_location" options="marker_options"></ui-gmap-marker>
+  
+  <ui-gmap-google-map center="currentLocation" zoom="map.zoom">
+    <ui-gmap-marker idKey="user_location_id" coords="currentLocation" options="marker_options"></ui-gmap-marker>
 
     <ui-gmap-polyline ng-repeat="drawing in drawings" path="drawing.sections" stroke="drawing.stroke"></ui-gmap-polyline>
+
+    <ui-gmap-polyline path="userLocations" stroke="fakeStroke"></ui-gmap-polyline>
   </ui-gmap-google-map>
+
+
   <footer>
       <div class="bar bar-footer botones-internas">
         <a ng-if="on_map" ng-click="changeToDrawing()">Comienza a dibujar</a>
