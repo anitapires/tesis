@@ -1,4 +1,4 @@
-function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, Drawings, ReverseGeocoding){
+function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, $ionicLoading, $ionicPlatform, Drawings, ReverseGeocoding){
 
   // STATES
   $scope.on_map = true
@@ -23,18 +23,20 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
   $scope.marker_options = { icon:'img/marker.png' };
  
   // Set center on user location
-  $cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function(position){
- 
-    $scope.currentLocation.latitude  = position.coords.latitude
-    $scope.currentLocation.longitude = position.coords.longitude
-
-    ReverseGeocoding.getLocationInformation($scope.currentLocation.latitude, $scope.currentLocation.longitude).then(function(locationName){
-      $scope.locationName = locationName;
+  ionic.Platform.ready(function(){
+    $cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function(position){
+  
+      $scope.currentLocation.latitude  = position.coords.latitude
+      $scope.currentLocation.longitude = position.coords.longitude
+  
+      ReverseGeocoding.getLocationInformation($scope.currentLocation.latitude, $scope.currentLocation.longitude).then(function(locationName){
+        $scope.locationName = locationName;
+      });
+  
+    }, function(error){
+      console.log("Could not get user location");
     });
- 
-  }, function(error){
-    console.log("Could not get user location");
-  });
+  });     
 
 
   $scope.userLocations = []
@@ -76,4 +78,4 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
   }
 }
 
-app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', '$cordovaGeolocation', 'Drawings', 'ReverseGeocoding', MapController]);
+app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', 'Drawings', 'ReverseGeocoding', MapController]);
