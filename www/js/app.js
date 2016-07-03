@@ -24,23 +24,12 @@ app = angular.module('Wedraw', ['ionic', 'ngCordova', 'uiGmapgoogle-maps']).conf
     controller: 'MapController'
   })
   
-  .state('start_drawing',{
-    url: '/start_drawing',
-    templateUrl: 'views/start_drawing.html',
-    controller: 'MapController'
-  })
-  
-  .state('confirm_drawing',{
-    url: '/confirm_drawing',
-    templateUrl: 'views/confirm_drawing.html',
-    controller: 'MapController'
-  })
   
   .state('finish_drawing',{
     url: '/finish_drawing',
     templateUrl: 'views/finish_drawing.html',
-    controller: 'MapController'
   });
+
 
 }).run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

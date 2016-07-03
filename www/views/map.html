@@ -13,9 +13,11 @@
   <ui-gmap-google-map center="currentLocation" zoom="map.zoom">
     <ui-gmap-marker idKey="user_location_id" coords="currentLocation" options="marker_options"></ui-gmap-marker>
 
-    <ui-gmap-polyline ng-repeat="drawing in drawings" path="drawing.sections" stroke="drawing.stroke"></ui-gmap-polyline>
+    <div ng-repeat="drawing in drawings">
+      <ui-gmap-polyline ng-repeat="section in drawing.sections" path="section.points" stroke="hardcordedStroke"></ui-gmap-polyline>
+    </div>
 
-    <ui-gmap-polyline path="userLocations" stroke="fakeStroke"></ui-gmap-polyline>
+    <ui-gmap-polyline path="userLocations" stroke="hardcordedStroke"></ui-gmap-polyline>
   </ui-gmap-google-map>
 
 

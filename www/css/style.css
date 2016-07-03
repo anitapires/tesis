@@ -13,6 +13,7 @@ body{font-family: 'Oxygen', sans-serif;}
 .content-ionic.ayuda a{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; background:#fbc757; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
 .content-ionic.ayuda p{color:#fff; margin-top:20px; font-size:13px;}
 .content-ionic.ayuda a:hover{background:#d1a441;}
+
 /*Internas*/
 .header-bar{background:#fbc757; display:block; padding:0px;}
 .header-bar p{ color:#fff; font-weight:600; text-align:right;}
@@ -33,3 +34,7 @@ body{font-family: 'Oxygen', sans-serif;}
 .final .texto-final p{color:#fff; font-size:18px;  text-align:center; margin-top:10px; line-height:28px; font-weight:300;}
 .final .texto-final a{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; background:#fbc757; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
 .final .texto-final a:hover{background:#d1a441;}
+
+/*Error*/
+.popup-buttons .button.button-positive{background:#fbc757 !important;}
+.popup-body span{font-family: 'Oxygen', sans-serif !important; }

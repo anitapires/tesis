@@ -1,4 +1,4 @@
-function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, $ionicLoading, $ionicPlatform, Drawings, ReverseGeocoding){
+function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, $ionicLoading, $ionicPlatform, $ionicPopup, Drawings, ReverseGeocoding){
 
   // STATES
   $scope.on_map = true
@@ -7,21 +7,25 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
 
   $scope.confirming_drawing = false
 
+  $scope.hardcordedStroke= { color: "#FBC757"}
 
   // Drawings
-  $scope.drawings = Drawings.getDrawings();
-
+  Drawings.getDrawings().then(function(drawings){
+    $scope.drawings = drawings;
+  });
 
   // Map
   $scope.map = { zoom: 14 }
 
-  $scope.currentLocation = { latitude: 45, longitude: -73 }
+  $scope.currentLocation = { latitude: -34.925316, longitude: -57.941211 }
 
   // Fucking marker
   $scope.user_location_id = "papa"
 
   $scope.marker_options = { icon:'img/marker.png' };
  
+
+
   // Set center on user location
   ionic.Platform.ready(function(){
     $cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function(position){
@@ -39,8 +43,7 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
   });     
 
 
-  $scope.userLocations = []
-  $scope.fakeStroke = { color: "#232323" }          
+  $scope.userLocations = []         
 
   var watchCurrentLocation = function() {
     watch = $cordovaGeolocation.watchPosition({timeout: 10000, enableHighAccuracy: true});
@@ -74,8 +77,17 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
   }
 
   $scope.saveDrawing = function(){
-    Drawings.saveDrawing($scope.userLocations);
+    Drawings.saveDrawing([{ color: $scope.hardcordedStroke.color, points_attributes: $scope.userLocations }]).then(function(drawing){
+      if(drawing != null)
+      {
+        $state.go('finish_drawing')
+      }
+      else
+      {
+        $ionicPopup.alert({ title: 'Error!', template: 'Hubo un error al guardar el dibujo.'});
+      }
+    });
   }
 }
 
-app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', 'Drawings', 'ReverseGeocoding', MapController]);
+app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', '$ionicPopup', 'Drawings', 'ReverseGeocoding', MapController]);
