@@ -7,10 +7,17 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
 
   $scope.confirming_drawing = false
 
-  $scope.hardcordedStroke= { color: "#FBC757"}
+  $scope.currentStroke = { color: "#FBC757" }
 
   // Drawings
   Drawings.getDrawings().then(function(drawings){
+
+    for(var i=0; i < drawings.length; i++){
+      for(var j=0; j < drawings[i].sections.length; j++){
+        drawings[i].sections[j].stroke = { color: drawings[i].sections[j].color }
+      }
+    }
+
     $scope.drawings = drawings;
   });
 
@@ -38,6 +45,7 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
       });
   
     }, function(error){
+      console.log(error)
       console.log("Could not get user location");
     });
   });     
@@ -77,7 +85,7 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
   }
 
   $scope.saveDrawing = function(){
-    Drawings.saveDrawing([{ color: $scope.hardcordedStroke.color, points_attributes: $scope.userLocations }]).then(function(drawing){
+    Drawings.saveDrawing([{ color: $scope.currentStroke.color, points_attributes: $scope.userLocations }]).then(function(drawing){
       if(drawing != null)
       {
         $state.go('finish_drawing')

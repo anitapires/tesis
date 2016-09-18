@@ -3,8 +3,21 @@
     <div class="col">
       <figure><img src="img/logo-wedraw-w.png" width="auto" height="20"/></figure>
     </div>
+
     <div class="col">
-      <p>{{locationName}}</p> 
+      <p>La Plata, Argentina</p> <!--{{locationName}}-->
+    </div>
+
+    <div class="col">
+      <button 
+        class="button" 
+        model-mode="hex" 
+        ng-model="currentStroke.color" 
+        modal-title="Elija un color" 
+        cancel-button="Cancelar" 
+        color-picker>
+        Cambiar color
+      </button>    
     </div>
   </div>
 </ion-header-bar>
@@ -14,10 +27,10 @@
     <ui-gmap-marker idKey="user_location_id" coords="currentLocation" options="marker_options"></ui-gmap-marker>
 
     <div ng-repeat="drawing in drawings">
-      <ui-gmap-polyline ng-repeat="section in drawing.sections" path="section.points" stroke="hardcordedStroke"></ui-gmap-polyline>
+      <ui-gmap-polyline ng-repeat="section in drawing.sections" path="section.points" stroke="section.stroke"></ui-gmap-polyline>
     </div>
 
-    <ui-gmap-polyline path="userLocations" stroke="hardcordedStroke"></ui-gmap-polyline>
+    <ui-gmap-polyline path="userLocations" stroke="currentStroke"></ui-gmap-polyline>
   </ui-gmap-google-map>
 
 
