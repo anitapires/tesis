@@ -1,26 +1,26 @@
 .content-ionic{padding:30px;}
 body{font-family: 'Oxygen', sans-serif;}
 .content-ionic h2{font-size:22px; color:#fff; position:relative;}
-.content-ionic h2::after{content:''; width:100px; height:3px; background:#fbc757; position:relative; z-index:9; text-align:center; display:block; margin:20px auto;}
+.content-ionic h2::after{content:''; width:100px; height:3px; background:#f58d05; position:relative; z-index:9; text-align:center; display:block; margin:20px auto;}
 
 /*Home*/
 .content-ionic.home, .content-ionic.final{background:url(../img/bg-index.jpg); background-size:cover; text-align: center;}
 .content-ionic.home img, .content-ionic.final img{display:block; margin:15px auto; max-width:100%; height:auto;}
-.content-ionic.home .boton{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; margin-top:60px; border-radius: 100px; width: 100px; height: 100px; color: #fff;  background: #fbc757; display:inline-block;}
+.content-ionic.home .boton{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; margin-top:60px; border-radius: 100px; width: 100px; height: 100px; color: #fff;  background: #f58d05; display:inline-block;}
 .content-ionic.home .boton.icon:before{font-size:40px; line-height:100px;}
-.content-ionic.home .boton:hover{background:#d1a441;}
+.content-ionic.home .boton:hover{background:#f5a53c;}
 .content-ionic.home .ion-ios-help-outline{font-size:20px; color:#fff; text-align:right; display:block; margin-top:50px;}
-.content-ionic.ayuda a{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; background:#fbc757; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
+.content-ionic.ayuda a{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; background:#f58d05; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
 .content-ionic.ayuda p{color:#fff; margin-top:20px; font-size:13px;}
-.content-ionic.ayuda a:hover{background:#d1a441;}
+.content-ionic.ayuda a:hover{background:#f5a53c;}
 
 /*Internas*/
-.header-bar{background:#fbc757; display:block; padding:0px;}
-.header-bar p{ color:#fff; font-weight:600; text-align:right;}
+.header-bar{background:#f58d05; display:block; padding:0px; height:auto;}
+.header-bar p{ color:#fff; font-weight:600; text-align:left; margin:5px 0px; }
 .header-bar .tercer-pantalla p{text-align:center !important;}
-.header-bar input{width:25px; height:25px; float:right; background:none;}
+.header-bar button{width:30px !important; height:30px !important; min-height:30px !important; float:right; background:#000; padding:0 !important;}
 .internas .angular-google-map-container {height: 90vh; width: 100%}
-.internas footer a{font-size:20px; text-decoration: none; background:#575857; color:#fff; text-align:center; width:100%; padding:15px 0px; display:inline-block;}
+.internas footer a{font-size:20px; text-decoration: none; background:#302f2e; color:#fff; text-align:center; width:100%; padding:15px 0px; display:inline-block;}
 .internas footer .bar-footer{border:0; padding:0;height:auto;}
 .internas footer .bar-footer a i{font-size:30px;}
 .internas footer .bar-footer .row{padding:0px;}
@@ -32,9 +32,9 @@ body{font-family: 'Oxygen', sans-serif;}
 /*Pantalla final*/
 .final .texto-final{margin-top:40px;}
 .final .texto-final p{color:#fff; font-size:18px;  text-align:center; margin-top:10px; line-height:28px; font-weight:300;}
-.final .texto-final a{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; background:#fbc757; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
-.final .texto-final a:hover{background:#d1a441;}
+.final .texto-final a{ transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; background:#f58d05; padding:10px 20px; text-transform:uppercase; color:#fff; text-decoration: none; margin-top:30px; display:inline-block; font-weight:600;}
+.final .texto-final a:hover{background:#f5a53c;}
 
 /*Error*/
-.popup-buttons .button.button-positive{background:#fbc757 !important;}
+.popup-buttons .button.button-positive{background:#f58d05 !important;}
 .popup-body span{font-family: 'Oxygen', sans-serif !important; }
