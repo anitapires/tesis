@@ -7,17 +7,9 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
 
   $scope.confirming_drawing = false
 
-  $scope.currentStroke = { color: "#FBC757" }
 
   // Drawings
   Drawings.getDrawings().then(function(drawings){
-
-    for(var i=0; i < drawings.length; i++){
-      for(var j=0; j < drawings[i].sections.length; j++){
-        drawings[i].sections[j].stroke = { color: drawings[i].sections[j].color }
-      }
-    }
-
     $scope.drawings = drawings;
   });
 
@@ -31,6 +23,12 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
 
   $scope.marker_options = { icon:'img/marker.png' };
  
+  // Datos del dibujo
+  $scope.currentDrawing = { sections: [] }
+
+  $scope.currentSection = { stroke_attributes: { color: "#FBC757" }, points_attributes: [] }
+
+  $scope.is_first_section = true
 
 
   // Set center on user location
@@ -50,9 +48,6 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
     });
   });     
 
-
-  $scope.userLocations = []         
-
   var watchCurrentLocation = function() {
     watch = $cordovaGeolocation.watchPosition({timeout: 10000, enableHighAccuracy: true});
     watch.then(
@@ -62,11 +57,24 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
         $scope.currentLocation.latitude  = position.coords.latitude
         $scope.currentLocation.longitude = position.coords.longitude
 
-        $scope.userLocations.push({latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude});
+        $scope.currentSection.points_attributes.push({latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude});
 
         console.log('Location changed:', $scope.currentLocation.latitude, $scope.currentLocation.longitude);
     });
   };
+
+  $scope.$watch('currentSection.stroke_attributes.color', function(newValue, oldValue){
+    console.log("cambio el color a " + newValue);
+    if(newValue != oldValue && !$scope.is_first_section){
+      $scope.currentSection.stroke_attributes.color = oldValue;
+
+      $scope.currentDrawing.sections.push($scope.currentSection);
+      resetCurrentSection(newValue);
+      $scope.is_first_section = false;
+    }
+
+    $scope.myStyle = { 'background': newValue }
+  });
 
   $scope.changeToDrawing = function(){
     $scope.on_map = false
@@ -84,8 +92,12 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
     $scope.confirming_drawing = true
   }
 
+   var resetCurrentSection = function(color){
+    $scope.currentSection = { stroke_attributes: { color: color }, points_attributes: [] };
+  }
+
   $scope.saveDrawing = function(){
-    Drawings.saveDrawing([{ color: $scope.currentStroke.color, points_attributes: $scope.userLocations }]).then(function(drawing){
+    Drawings.saveDrawing($scope.currentDrawing.sections).then(function(drawing){
       if(drawing != null)
       {
         $state.go('finish_drawing')

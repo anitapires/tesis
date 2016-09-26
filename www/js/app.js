@@ -9,6 +9,9 @@ app = angular.module('Wedraw', ['ionic', 'ngCordova', 'uiGmapgoogle-maps', 'ioni
     key: 'AIzaSyBGU5_GQbuD2DzWeQqJOewndTDnAdzDdrg'
   })
 
+  // AIzaSyBGU5_GQbuD2DzWeQqJOewndTDnAdzDdrg Javascript
+  //AIzaSyAjU2ucHTv8xjBwPCRWHyAK3wwIg2Y7pcE  Android
+
   $urlRouterProvider.otherwise("/");
   
   $stateProvider

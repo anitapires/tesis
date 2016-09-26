@@ -18,7 +18,7 @@ body{font-family: 'Oxygen', sans-serif;}
 .header-bar{background:#f58d05; display:block; padding:0px; height:auto;}
 .header-bar p{ color:#fff; font-weight:600; text-align:left; margin:5px 0px; }
 .header-bar .tercer-pantalla p{text-align:center !important;}
-.header-bar button{width:30px !important; height:30px !important; min-height:30px !important; float:right; background:#000; padding:0 !important;}
+.header-bar button{width:30px !important; height:30px !important; min-height:30px !important; float:right; border:1px solid #302f2e; padding:0 !important;}
 .internas .angular-google-map-container {height: 90vh; width: 100%}
 .internas footer a{font-size:20px; text-decoration: none; background:#302f2e; color:#fff; text-align:center; width:100%; padding:15px 0px; display:inline-block;}
 .internas footer .bar-footer{border:0; padding:0;height:auto;}

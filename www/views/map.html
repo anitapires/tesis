@@ -1,15 +1,16 @@
 <ion-header-bar class="header-bar">
   <div class="row">
 
-    <div class="col">
+    <div class="col col-80">
       <p>{{locationName}}</p>
     </div>
 
     <div class="col">
       <button 
-        class="button" 
+        class="button"
+        ng-style="myStyle"
         model-mode="hex" 
-        ng-model="currentStroke.color" 
+        ng-model="currentSection.stroke_attributes.color" 
         modal-title="Elija un color" 
         cancel-button="Cancelar" 
         color-picker>
@@ -26,7 +27,9 @@
       <ui-gmap-polyline ng-repeat="section in drawing.sections" path="section.points" stroke="section.stroke"></ui-gmap-polyline>
     </div>
 
-    <ui-gmap-polyline path="userLocations" stroke="currentStroke"></ui-gmap-polyline>
+    <ui-gmap-polyline ng-repeat="section in currentDrawing" path="section.points_attributes" stroke="section.stroke_attributes" ng-if="currentDrawing.section.length"></ui-gmap-polyline>
+
+    <ui-gmap-polyline path="currentSection.points_attributes" stroke="currentSection.stroke_attributes" ></ui-gmap-polyline>
   </ui-gmap-google-map>
 
 

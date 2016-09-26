@@ -22,4 +22,5 @@
   <access origin="http://maps.google.com" />
   <access origin="http://maps.googleapis.com" />
   <access origin="http://fonts.googleapis.com" />
+  <access origin="*" />
 </widget>
