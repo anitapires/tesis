@@ -2,7 +2,8 @@
   <div class="row">
 
     <div class="col col-80">
-      <p>{{locationName}}</p>
+      <!--<p>{{locationName}}</p>-->
+      <p>lat: {{measured_position.coords.latitude}}, lng: {{measured_position.coords.longitude}}, acc: {{measured_position.coords.accuracy}}, mea:{{measured}}</p>
     </div>
 
     <div class="col">
@@ -20,6 +21,7 @@
 </ion-header-bar>
 <ion-content class="internas">
   
+
   <ui-gmap-google-map center="currentLocation" zoom="map.zoom">
     <ui-gmap-marker idKey="user_location_id" coords="currentLocation" options="marker_options"></ui-gmap-marker>
 
@@ -27,7 +29,7 @@
       <ui-gmap-polyline ng-repeat="section in drawing.sections" path="section.points" stroke="section.stroke"></ui-gmap-polyline>
     </div>
 
-    <ui-gmap-polyline ng-repeat="section in currentDrawing" path="section.points_attributes" stroke="section.stroke_attributes" ng-if="currentDrawing.section.length"></ui-gmap-polyline>
+    <ui-gmap-polyline ng-repeat="section in currentDrawing.sections" path="section.points_attributes" stroke="section.stroke_attributes" ng-if="currentDrawing.sections.length"></ui-gmap-polyline>
 
     <ui-gmap-polyline path="currentSection.points_attributes" stroke="currentSection.stroke_attributes" ></ui-gmap-polyline>
   </ui-gmap-google-map>

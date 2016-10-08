@@ -27,6 +27,10 @@ app = angular.module('Wedraw', ['ionic', 'ngCordova', 'uiGmapgoogle-maps', 'ioni
     controller: 'MapController'
   })
   
+  .state('ayuda',{
+    url: '/ayuda',
+    templateUrl: 'views/ayuda.html'
+  })
   
   .state('finish_drawing',{
     url: '/finish_drawing',
