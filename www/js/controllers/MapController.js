@@ -67,8 +67,6 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
           if($scope.measured >= 5){
             $scope.currentLocation.latitude  = $scope.accum_lat / $scope.measured;
             $scope.currentLocation.longitude = $scope.accum_lng / $scope.measured;
-            //$scope.currentLocation.latitude  = position.coords.latitude;
-            //$scope.currentLocation.longitude = position.coords.longitude;
           
             $scope.currentSection.points_attributes.push({latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude});
     
@@ -130,6 +128,9 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
   }
 
   $scope.saveDrawing = function(){
+    // Agrego la sección actual antes de guardar el dibujo
+    $scope.currentDrawing.sections.push($scope.currentSection)
+
     Drawings.saveDrawing($scope.currentDrawing.sections).then(function(drawing){
       if(drawing != null)
       {
