@@ -1,21 +1,11 @@
 <ion-header-bar class="header-bar">
   <div class="row">
-
-    <div class="col col-80">
-      <!--<p>{{locationName}}</p>-->
-      <p>lat: {{measured_position.coords.latitude}}, lng: {{measured_position.coords.longitude}}, acc: {{measured_position.coords.accuracy}}, mea:{{measured}}</p>
+    <div class="col col-10">
+      <img src="../img/logo-wedraw-w.png" width="30">
     </div>
-
-    <div class="col">
-      <button 
-        class="button"
-        ng-style="myStyle"
-        model-mode="hex" 
-        ng-model="currentSection.stroke_attributes.color" 
-        modal-title="Elija un color" 
-        cancel-button="Cancelar" 
-        color-picker>
-      </button>    
+    <div class="col col-90">
+      <p>{{locationName}}</p>
+      <!--<p>lat: {{measured_position.coords.latitude}}, lng: {{measured_position.coords.longitude}}, acc: {{measured_position.coords.accuracy}}, mea:{{measured}}</p>-->
     </div>
   </div>
 </ion-header-bar>
@@ -39,7 +29,36 @@
       <div class="bar bar-footer botones-internas">
         <a ng-if="on_map" ng-click="changeToDrawing()">Comienza a dibujar</a>
 
-        <a ng-if="drawing" ng-click="changeToConfirming()"><i class="ion-android-done"></i></a>
+        <div ng-if="drawing" class="row">
+          <div class="col">
+            <!--<button 
+              class="button"
+              ng-style="myStyle"
+              model-mode="hex" 
+              ng-model="currentSection.stroke_attributes.color" 
+              modal-title="Elija un color" 
+              cancel-button="Cancelar" 
+              color-picker>
+            </button>-->
+            <button 
+              class="button-footer"
+              ng-style="myStyle"
+              model-mode="hex" 
+              ng-model="currentSection.stroke_attributes.color" 
+              modal-title="Elija un color" 
+              cancel-button="Cancelar" 
+              color-picker>
+            <i class="ion-android-color-palette"></i>
+            </button>
+          </div>
+          
+          <div class="col">
+            <a ng-click="changeToConfirming()"><i class="ion-pause"></i></a>
+          </div>
+          <div class="col">
+            <a ng-click="changeToConfirming()"><i class="ion-android-done"></i></a>
+          </div>
+        </div>  
 
         <div ng-if="confirming_drawing" class="row">
           <div class="col">

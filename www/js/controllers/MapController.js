@@ -91,7 +91,7 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
       resetCurrentSection();    
     }
 
-    $scope.myStyle = { 'background': newValue }
+    //$scope.myStyle = { 'background': newValue }
   });
 
   $scope.changeToDrawing = function(){

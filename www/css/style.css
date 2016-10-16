@@ -16,17 +16,18 @@ body{font-family: 'Oxygen', sans-serif;}
 
 /*Internas*/
 .header-bar{background:#f58d05; display:block; padding:0px; height:auto;}
-.header-bar p{ color:#fff; font-weight:600; text-align:left; margin:5px 0px; }
+.header-bar p{ color:#fff; font-weight:600; text-align:right; margin:5px 0px; }
 .header-bar .tercer-pantalla p{text-align:center !important;}
-.header-bar button{width:30px !important; height:30px !important; min-height:30px !important; float:right; border:1px solid #302f2e; padding:0 !important;}
+/*.header-bar button{width:30px !important; height:30px !important; min-height:30px !important; float:right; border:1px solid #302f2e; padding:0 !important;}*/
 .internas .angular-google-map-container {height: 90vh; width: 100%}
-.internas footer a{font-size:20px; text-decoration: none; background:#302f2e; color:#fff; text-align:center; width:100%; padding:15px 0px; display:inline-block;}
+.internas footer a{cursor: pointer; font-size:20px; text-decoration: none; background:#302f2e; color:#fff; text-align:center; width:100%; padding:15px 0px; display:inline-block;}
+.internas footer button.button-footer{transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s; font-size:20px; text-decoration: none; background:#302f2e; color:#fff; text-align:center; width:100%; padding:15px 0px; display:inline-block; min-height:auto !important; line-height: inherit !important; border-top:0; border-left:0; border-bottom:0;border-right: 2px solid #fff;}
 .internas footer .bar-footer{border:0; padding:0;height:auto;}
-.internas footer .bar-footer a i{font-size:30px;}
+.internas footer .bar-footer a i, .internas footer button.button-footer i{font-size:30px;}
 .internas footer .bar-footer .row{padding:0px;}
 .internas footer .bar-footer .col{padding:0px;}
 .internas footer .botones-internas a{border-right:2px solid #fff;}
-.internas footer .bar-footer a:hover{background:#424342;}
+.internas footer .bar-footer a:hover, .internas footer button.button-footer:hover{background:#424342;}
 .internas footer .bar-footer a{transition:all 0.2s; -webkit-transition:0.2s; -moz-transition:0.2s;}
 
 /*Pantalla final*/
