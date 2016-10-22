@@ -7,6 +7,9 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
 
   $scope.confirming_drawing = false
 
+  // DRAWING STATES
+  $scope.is_paused = false
+
 
   // Drawings
   Drawings.getDrawings().then(function(drawings){
@@ -52,33 +55,38 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
   $scope.accum_lng = 0
 
   var watchCurrentLocation = function() {
-    watch = $cordovaGeolocation.watchPosition({timeout: 10000, enableHighAccuracy: true});
-    watch.then(
+    $scope.watch = $cordovaGeolocation.watchPosition({timeout: 10000, enableHighAccuracy: true});
+    console.log("Watch initialized")
+    $scope.watch.then(
       null,
       function(err) { console.log("watch error", err); },
       function(position) {
         $scope.measured_position = position;
 
-        //if(position.coords.accuracy < $scope.delta){
-          $scope.measured++;
-          $scope.accum_lat += position.coords.latitude;
-          $scope.accum_lng += position.coords.longitude;
-    
-          if($scope.measured >= 5){
-            $scope.currentLocation.latitude  = $scope.accum_lat / $scope.measured;
-            $scope.currentLocation.longitude = $scope.accum_lng / $scope.measured;
-          
+        $scope.measured++;
+        $scope.accum_lat += position.coords.latitude;
+        $scope.accum_lng += position.coords.longitude;    
+
+        if($scope.measured >= 1){
+          $scope.currentLocation.latitude  = $scope.accum_lat / $scope.measured;
+          $scope.currentLocation.longitude = $scope.accum_lng / $scope.measured;          
+
+          if(!$scope.is_paused){
             $scope.currentSection.points_attributes.push({latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude});
-    
-            console.log('Location changed:', $scope.currentLocation.latitude, $scope.currentLocation.longitude, " cantidad de puntos:", $scope.currentSection.points_attributes.length);
-            
-            $scope.measured  = 0;
-            $scope.accum_lat = 0;
-            $scope.accum_lng = 0;
-          }
-        //}
+          }    
+
+          console.log('Location changed:', $scope.currentLocation.latitude, $scope.currentLocation.longitude, " cantidad de puntos:", $scope.currentSection.points_attributes.length);            
+          $scope.measured  = 0;
+          $scope.accum_lat = 0;
+          $scope.accum_lng = 0;
+        }
       });
   };
+
+  var stopWatch = function(){
+    $scope.watch.clearWatch();
+    console.log("Watch stopped")
+  }
 
   $scope.$watch('currentSection.stroke_attributes.color', function(newValue, oldValue){
     console.log("cambio el color a " + newValue);
@@ -90,9 +98,22 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
 
       resetCurrentSection();    
     }
-
-    //$scope.myStyle = { 'background': newValue }
   });
+
+  $scope.pause = function(){
+    console.log("Pause pressed.")
+    $scope.is_paused = true;
+
+    if($scope.currentSection.points_attributes.length >= 2){
+      saveCurrentSectionWithColor($scope.currentSection.stroke_attributes.color);
+    }
+
+    resetCurrentSection(false);    
+  }
+
+  $scope.resume = function(){
+    $scope.is_paused = false
+  }
 
   $scope.changeToDrawing = function(){
     $scope.on_map = false
@@ -120,11 +141,17 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $cordovaGeolocation, 
     console.log('Guarde una sección:', $scope.currentDrawing)
   }
 
-  var resetCurrentSection = function(color){
-    // La sección nueva tiene que comenzar desde el ultimo punto de la sección anterior
-    last_point = angular.copy($scope.currentSection.points_attributes[$scope.currentSection.points_attributes.length-1])
+  var resetCurrentSection = function(saveLastPoint = true){
 
-    $scope.currentSection.points_attributes = [last_point];
+    if(saveLastPoint){
+      // La sección nueva tiene que comenzar desde el ultimo punto de la sección anterior
+      last_point = angular.copy($scope.currentSection.points_attributes[$scope.currentSection.points_attributes.length-1])
+
+      $scope.currentSection.points_attributes = [last_point];
+    }
+    else{
+      $scope.currentSection.points_attributes = [];
+    }
   }
 
   $scope.saveDrawing = function(){

@@ -31,18 +31,8 @@
 
         <div ng-if="drawing" class="row">
           <div class="col">
-            <!--<button 
-              class="button"
-              ng-style="myStyle"
-              model-mode="hex" 
-              ng-model="currentSection.stroke_attributes.color" 
-              modal-title="Elija un color" 
-              cancel-button="Cancelar" 
-              color-picker>
-            </button>-->
             <button 
               class="button-footer"
-              ng-style="myStyle"
               model-mode="hex" 
               ng-model="currentSection.stroke_attributes.color" 
               modal-title="Elija un color" 
@@ -52,9 +42,13 @@
             </button>
           </div>
           
-          <div class="col">
-            <a ng-click="changeToConfirming()"><i class="ion-pause"></i></a>
+          <div ng-if="!(is_paused)" class="col">
+            <a ng-click="pause()"><i class="ion-pause"></i></a>
           </div>
+          <div ng-if="is_paused" class="col">
+            <a ng-click="resume()"><i class="ion-play"></i></a>
+          </div>
+
           <div class="col">
             <a ng-click="changeToConfirming()"><i class="ion-android-done"></i></a>
           </div>
