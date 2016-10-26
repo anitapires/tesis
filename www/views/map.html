@@ -4,7 +4,7 @@
       <img src="img/logo-wedraw-w.png" width="30">
     </div>
     <div class="col col-90">
-      <p>{{locationName}}</p>
+      <p>{{currentLocation.name}}</p>
       <!--<p>lat: {{measured_position.coords.latitude}}, lng: {{measured_position.coords.longitude}}, acc: {{measured_position.coords.accuracy}}, mea:{{measured}}</p>-->
     </div>
   </div>
@@ -12,24 +12,24 @@
 <ion-content class="internas">
   
 
-  <ui-gmap-google-map center="currentLocation" zoom="map.zoom">
-    <ui-gmap-marker idKey="user_location_id" coords="currentLocation" options="marker_options"></ui-gmap-marker>
+  <ui-gmap-google-map center="currentLocation" zoom="mapZoom">
+    <ui-gmap-marker idKey="markerID" coords="currentLocation" options="markerOptions"></ui-gmap-marker>
 
     <div ng-repeat="drawing in drawings">
-      <ui-gmap-polyline ng-repeat="section in drawing.sections" path="section.points" stroke="section.stroke"></ui-gmap-polyline>
+      <ui-gmap-polyline ng-repeat="section in drawing.sections()" path="section.points()" stroke="section.stroke()"></ui-gmap-polyline>
     </div>
 
-    <ui-gmap-polyline ng-repeat="section in currentDrawing.sections" path="section.points_attributes" stroke="section.stroke_attributes" ng-if="currentDrawing.sections.length"></ui-gmap-polyline>
+    <ui-gmap-polyline ng-repeat="section in currentDrawing.sections()" path="section.points()" stroke="section.stroke()" ng-if="currentDrawing.hasSections()"></ui-gmap-polyline>
 
-    <ui-gmap-polyline path="currentSection.points_attributes" stroke="currentSection.stroke_attributes" ></ui-gmap-polyline>
+    <ui-gmap-polyline path="currentSection.points()" stroke="currentSection.stroke()" ></ui-gmap-polyline>
   </ui-gmap-google-map>
 
 
   <footer>
       <div class="bar bar-footer botones-internas">
-        <a ng-if="on_map" ng-click="changeToDrawing()">Comienza a dibujar</a>
+        <a ng-if="drawingState.isNotStarted()" ng-click="begin()">Comienza a dibujar</a>
 
-        <div ng-if="drawing" class="row">
+        <div ng-if="drawingState.isStarted()" class="row">
           <div class="col">
             <button 
               class="button-footer"
@@ -42,24 +42,24 @@
             </button>
           </div>
           
-          <div ng-if="!(is_paused)" class="col">
+          <div ng-if="drawingState.isInProgress()" class="col">
             <a ng-click="pause()"><i class="ion-pause"></i></a>
           </div>
-          <div ng-if="is_paused" class="col">
+          <div ng-if="drawingState.isPaused()" class="col">
             <a ng-click="resume()"><i class="ion-play"></i></a>
           </div>
 
           <div class="col">
-            <a ng-click="changeToConfirming()"><i class="ion-android-done"></i></a>
+            <a ng-click="finish()"><i class="ion-android-done"></i></a>
           </div>
         </div>  
 
-        <div ng-if="confirming_drawing" class="row">
+        <div ng-if="drawingState.isFinished()" class="row">
           <div class="col">
             <a ui-sref="home"><i class="ion-android-close"></i></a>
           </div>
           <div class="col">
-            <a ng-click="saveDrawing()"><i class="ion-android-done"></i></a>
+            <a ng-click="save()"><i class="ion-android-done"></i></a>
           </div>
         </div>
       </div>

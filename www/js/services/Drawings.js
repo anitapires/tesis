@@ -1,15 +1,15 @@
-function DrawingService($http) {
+function DrawingService($http, WedrawSettings, Drawing) {
 
   this.getDrawings = function(){
     //return $http.get('http://localhost:9292/drawings').then(function(response){ // development
-    return $http.get('http://aqueous-depths-71926.herokuapp.com/drawings').then(function(response){ // produccion
-      return response.data;
+    return $http.get(WedrawSettings.api_url + '/drawings').then(function(response){ // produccion
+      return response.data.map(Drawing.build);
     });
   }
 
   this.saveDrawing = function(sections){
     //return $http.post('http://localhost:9292/drawings', {sections: sections}).then( // development
-    return $http.post('http://aqueous-depths-71926.herokuapp.com/drawings', {sections: sections}).then( // produccion
+    return $http.post(WedrawSettings.api_url + '/drawings', {sections: sections}).then( // produccion
       function(response){
         return response.data
       }, 
@@ -20,4 +20,4 @@ function DrawingService($http) {
   }
 }
 
-app.service('Drawings', ['$http', DrawingService]);
+app.service('Drawings', ['$http', 'WedrawSettings', 'Drawing', DrawingService]);
