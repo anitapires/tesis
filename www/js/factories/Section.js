@@ -25,7 +25,7 @@ app.factory('Section', function (){
     return this
   }
 
-  Section.prototype.reset = function(keepLastPoint = true){
+  Section.prototype.reset = function(keepLastPoint){
     this.points_attributes = (keepLastPoint) ? [this.lastPoint()] : []
 
     return this

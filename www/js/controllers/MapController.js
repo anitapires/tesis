@@ -45,7 +45,7 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $ionicLoading, $ionic
       if(newValue != oldValue && $scope.currentSection.isPath()){
         $scope.currentDrawing.addSection(angular.copy($scope.currentSection).changeColor(oldValue))
   
-        $scope.currentSection.reset()  
+        $scope.currentSection.reset(true)  
   
         console.log('Save section:', $scope.currentDrawing)
       }
