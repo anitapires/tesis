@@ -25,7 +25,6 @@ function LocationWatcher($cordovaGeolocation, WedrawSettings, ReverseGeocoding) 
 
   this.watchLocation = function(){
     this._watch = $cordovaGeolocation.watchPosition(WedrawSettings.cordova_geolocation_options)
-    console.log('[LocationWatcher] Watch started')
     this._watch.then(
       null,
       function(err){
@@ -34,16 +33,12 @@ function LocationWatcher($cordovaGeolocation, WedrawSettings, ReverseGeocoding) 
       (function(position){
         this._measured++
         this._accum_lat += position.coords.latitude
-        this._accum_lng += position.coords.longitude   
-
-        //console.log('[LocationWatcher] New position') 
+        this._accum_lng += position.coords.longitude    
 
         if(this._measured >= WedrawSettings.location_watcher.sample_size){
 
           this.currentLocation.latitude  = this._accum_lat / this._measured
-          this.currentLocation.longitude = this._accum_lng / this._measured            
-
-          console.log('[LocationWatcher] New location:', this.currentLocation.latitude, this.currentLocation.longitude)            
+          this.currentLocation.longitude = this._accum_lng / this._measured                        
           this._measured  = 0
           this._accum_lat = 0
           this._accum_lng = 0
@@ -54,7 +49,6 @@ function LocationWatcher($cordovaGeolocation, WedrawSettings, ReverseGeocoding) 
 
   this.stopWatchLocation = function(){
     this._watch.clearWatch()
-    console.log('[LocationWatcher] Watch cleared')
   }  
 }
 

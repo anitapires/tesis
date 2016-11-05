@@ -20,21 +20,19 @@
     </div>
 
     <ui-gmap-polyline ng-repeat="section in currentDrawing.sections()" path="section.points()" stroke="section.stroke()" ng-if="currentDrawing.hasSections()"></ui-gmap-polyline>
-
-    <ui-gmap-polyline path="currentSection.points()" stroke="currentSection.stroke()" ></ui-gmap-polyline>
   </ui-gmap-google-map>
 
 
   <footer>
       <div class="bar bar-footer botones-internas">
-        <a ng-if="drawingState.isNotStarted()" ng-click="begin()">Comienza a dibujar</a>
+        <a ng-if="currentDrawing.isNotStarted()" ng-click="begin()">Comienza a dibujar</a>
 
-        <div ng-if="drawingState.isStarted()" class="row">
+        <div ng-if="currentDrawing.isStarted()" class="row">
           <div class="col">
             <button 
               class="button-footer"
               model-mode="hex" 
-              ng-model="currentSection.stroke_attributes.color" 
+              ng-model="currentStroke.color" 
               modal-title="Elija un color" 
               cancel-button="Cancelar" 
               color-picker>
@@ -42,10 +40,10 @@
             </button>
           </div>
           
-          <div ng-if="drawingState.isInProgress()" class="col">
+          <div ng-if="currentDrawing.isInProgress()" class="col">
             <a ng-click="pause()"><i class="ion-pause"></i></a>
           </div>
-          <div ng-if="drawingState.isPaused()" class="col">
+          <div ng-if="currentDrawing.isPaused()" class="col">
             <a ng-click="resume()"><i class="ion-play"></i></a>
           </div>
 
@@ -54,7 +52,7 @@
           </div>
         </div>  
 
-        <div ng-if="drawingState.isFinished()" class="row">
+        <div ng-if="currentDrawing.isFinished()" class="row">
           <div class="col">
             <a ui-sref="home"><i class="ion-android-close"></i></a>
           </div>

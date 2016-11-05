@@ -13,22 +13,16 @@ app.factory('Section', function (){
     return this.stroke_attributes
   }
 
-  Section.prototype.changeColor = function(newColor){
-    this.stroke_attributes.color = newColor
-
-    return this
-  }
-
   Section.prototype.addPoint = function(point){
     this.points_attributes.push({latitude: point.latitude, longitude: point.longitude})
+  }
 
-    return this
+  Section.prototype.changeColor = function(color){
+    this.stroke_attributes.color = color
   }
 
   Section.prototype.reset = function(keepLastPoint){
     this.points_attributes = (keepLastPoint) ? [this.lastPoint()] : []
-
-    return this
   }
 
   Section.prototype.isPath = function(){

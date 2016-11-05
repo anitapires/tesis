@@ -1,5 +1,5 @@
 app.constant('WedrawSettings', {
-  api_url:   'http://aqueous-depths-71926.herokuapp.com',
+  api_url: 'http://aqueous-depths-71926.herokuapp.com',
   gmaps_key: 'AIzaSyBGU5_GQbuD2DzWeQqJOewndTDnAdzDdrg',
   geocoding: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=<LAT>,<LONG>&key=AIzaSyBGU5_GQbuD2DzWeQqJOewndTDnAdzDdrg',
   
@@ -9,7 +9,7 @@ app.constant('WedrawSettings', {
   },
 
   location_watcher: {
-    sample_size: 1
+    sample_size: 5
   },
 
   marker_id: 'MyPosition',

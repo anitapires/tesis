@@ -1,11 +1,11 @@
-function MapController($scope, $state, uiGmapGoogleMapApi, $ionicLoading, $ionicPlatform, $ionicPopup, WedrawSettings, DrawingState, Drawings, LocationWatcher, Section, Drawing){
-  
-  $scope.drawingState    = DrawingState;
+function MapController($scope, $state, uiGmapGoogleMapApi, $ionicLoading, $ionicPlatform, $ionicPopup, WedrawSettings, Drawings, LocationWatcher, Section, Drawing){
   
   $scope.markerID        = WedrawSettings.marker_id
   $scope.markerOptions   = WedrawSettings.marker_options
   $scope.mapZoom         = WedrawSettings.map_zoom.out
   $scope.currentLocation = WedrawSettings.default_location
+
+  $scope.currentStroke   = angular.copy(WedrawSettings.default_stroke)
 
   Drawings.getDrawings().then(function(drawings){
     $scope.drawings = drawings;
@@ -13,70 +13,50 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $ionicLoading, $ionic
 
   $scope.currentDrawing = new Drawing()
 
-  $scope.currentSection = new Section(WedrawSettings.default_stroke)
-
-  // Set center on user location
   ionic.Platform.ready(function(){
     LocationWatcher.getCurrentLocation().then(function(location){
       $scope.currentLocation = location
     })
+   
   })
 
 
   $scope.begin = function(){
-    $scope.drawingState.changeToStarted()
+    $scope.currentDrawing.start(WedrawSettings.default_stroke)
 
     $scope.mapZoom = WedrawSettings.map_zoom.in
 
     LocationWatcher.watchLocation()
-
     $scope.currentLocation = LocationWatcher.currentLocation
-    
+
     $scope.$watch('currentLocation', function(newLocation, oldLocation){
-      if($scope.drawingState.isStarted() && !$scope.drawingState.isPaused()){
-        $scope.currentSection.addPoint(newLocation);
-        console.log('Added point to current section:', $scope.currentSection)
+      if($scope.currentDrawing.isStarted() && !$scope.currentDrawing.isPaused()){
+        $scope.currentDrawing.currentSection().addPoint(newLocation);
       }
     }, true)
-  
-    $scope.$watch('currentSection.stroke_attributes.color', function(newValue, oldValue){
-      console.log("Change color to:" + newValue);
-  
-      if(newValue != oldValue && $scope.currentSection.isPath()){
-        $scope.currentDrawing.addSection(angular.copy($scope.currentSection).changeColor(oldValue))
-  
-        $scope.currentSection.reset(true)  
-  
-        console.log('Save section:', $scope.currentDrawing)
+
+    $scope.$watch('currentStroke.color', function(newColor, oldColor){
+      if(newColor != oldColor){
+        $scope.currentDrawing.changeColor(angular.copy(newColor))
       }
     })
   }
 
   $scope.pause = function(){
-    $scope.drawingState.changeToPaused()
-
-    if($scope.currentSection.isPath()){
-      $scope.currentDrawing.addSection(angular.copy($scope.currentSection));
-      console.log('Save section:', $scope.currentDrawing)
-    }
-
-    $scope.currentSection.reset(false)
+    $scope.currentDrawing.pause()
   }
 
   $scope.resume = function(){
-    $scope.drawingState.changeToResumed()
+    $scope.currentDrawing.resume()
   }
 
   $scope.finish = function(){
-    $scope.drawingState.changeToFinished()
+    $scope.currentDrawing.finish()
 
     LocationWatcher.stopWatchLocation()
   }
 
   $scope.save = function(){
-    // Agrego la sección actual antes de guardar el dibujo
-    $scope.currentDrawing.addSection($scope.currentSection)
-
     Drawings.saveDrawing($scope.currentDrawing.sections()).then(function(drawing){
       if(drawing != null)
       {
@@ -90,4 +70,4 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $ionicLoading, $ionic
   }
 }
 
-app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', '$ionicLoading', '$ionicPlatform', '$ionicPopup', 'WedrawSettings', 'DrawingState', 'Drawings', 'LocationWatcher', 'Section', 'Drawing', MapController]);
+app.controller('MapController', ['$scope', '$state', 'uiGmapGoogleMapApi', '$ionicLoading', '$ionicPlatform', '$ionicPopup', 'WedrawSettings', 'Drawings', 'LocationWatcher', 'Section', 'Drawing', MapController]);
