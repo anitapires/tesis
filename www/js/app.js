@@ -13,28 +13,32 @@ app = angular.module('Wedraw', ['ionic', 'ngCordova', 'uiGmapgoogle-maps', 'ioni
   //AIzaSyAjU2ucHTv8xjBwPCRWHyAK3wwIg2Y7pcE  Android
 
   $urlRouterProvider.otherwise("/");
-  
+
   $stateProvider
-  
+
   .state('home', {
     url: '/',
     templateUrl: "views/home.html"
   })
-  
+
   .state('map',{
     url: '/map',
     templateUrl: 'views/map.html',
     controller: 'MapController'
   })
-  
+
   .state('ayuda',{
     url: '/ayuda',
     templateUrl: 'views/ayuda.html'
   })
-  
+
   .state('finish_drawing',{
     url: '/finish_drawing',
+    params: {
+      city_name: 'La Plata'
+    },
     templateUrl: 'views/finish_drawing.html',
+    controller: 'FinishDrawingController'
   });
 
 

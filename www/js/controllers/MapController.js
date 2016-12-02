@@ -1,5 +1,5 @@
 function MapController($scope, $state, uiGmapGoogleMapApi, $ionicLoading, $ionicPlatform, $ionicPopup, WedrawSettings, Drawings, LocationWatcher, Section, Drawing){
-  
+
   $scope.markerID        = WedrawSettings.marker_id
   $scope.markerOptions   = WedrawSettings.marker_options
   $scope.mapZoom         = WedrawSettings.map_zoom.out
@@ -17,7 +17,6 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $ionicLoading, $ionic
     LocationWatcher.getCurrentLocation().then(function(location){
       $scope.currentLocation = location
     })
-   
   })
 
 
@@ -60,7 +59,7 @@ function MapController($scope, $state, uiGmapGoogleMapApi, $ionicLoading, $ionic
     Drawings.saveDrawing($scope.currentDrawing.sections()).then(function(drawing){
       if(drawing != null)
       {
-        $state.go('finish_drawing')
+        $state.go('finish_drawing', { city_name: $scope.currentLocation.city })
       }
       else
       {
